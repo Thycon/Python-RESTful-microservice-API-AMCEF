@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+Search by id
+{% endblock %}
+{% block content %}
+<form method="POST">
+    <br />
+    <h2 align="center">Search</h2>
+    <div class="form-group">
+        <label for="Post Id">Search post by post Id</label>
+        <input type="id" class="form-control" id="id" name="id" placeholder="Post Id" required/>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% if post %}
+    <div class="list-group" id="posts">
+    <a class="list-group-item">
+        <div class="d-flex w-100 justify-content-between align-self-start">
+            <h5 class="mb-1">{{ post.title }}</h5>
+                <small>User id: {{ post.userid }}</small>
+        </div>
+        <p class="mb-1">{{ post.body }}</p><small>Post id: {{ post.id }}</small>
+    </a>
+</div>
+{% endif %}
+
+{% endblock %}

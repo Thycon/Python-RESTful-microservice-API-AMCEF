@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+    website:
+        build: .
+        volumes:
+            - .:/Python-RESTful-microservice-API-AMCEF
+        ports:
+            - 5000:80

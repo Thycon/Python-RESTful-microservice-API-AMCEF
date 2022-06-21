@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}
+Add a post
+{% endblock %}
+{% block content %}
+<form method="POST">
+    <br />
+    <h2 align="center">Add a post</h2>
+    <div class="form-group">
+        <label for="Post Id">Add a new post</label>
+        <input type="text" class="form-control" id="userid" name="userid" placeholder="User Id" required/>
+        <br />
+        <input type="text" class="form-control" id="title" name="title" placeholder="Title" required/>
+        <br />
+        <textarea type="text" class="form-control" id="body" name="body" rows="10" placeholder="Body" required></textarea>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br />
+{% if post %}
+    <div class="list-group" id="posts">
+    <a class="list-group-item">
+        <div class="d-flex w-100 justify-content-between align-self-start">
+            <h5 class="mb-1">{{ post.title }}</h5>
+                <small>User id: {{ post.userid }}</small>
+        </div>
+        <p class="mb-1">{{ post.body }}</p><small>Post id: {{ post.id }}</small>
+    </a>
+</div>
+{% endif %}
+{% endblock %}

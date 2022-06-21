@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}
+Edit post
+{% endblock %}
+{% block content %}
+<form method="POST">
+    <br />
+    <h2 align="center">Edit a post</h2>
+    <div class="form-group">
+        {% if edit == True %}
+            <label for="Post Id">Edit a post</label>
+            <input type="text" class="form-control" id="userid" name="id" placeholder="Post Id" required/>
+        {% else %}
+            <label for="Post Id">Edit a post</label>
+            <input type="text" class="form-control" id="userid" name="id" placeholder="Post Id" value="{{ temp_id }}" required/>
+            <br />
+            <input type="text" class="form-control" id="title" name="title" placeholder="Title" required/>
+            <br />
+            <textarea type="text" class="form-control" id="body" name="body" rows="10" placeholder="Body" required></textarea>
+        {% endif %}
+    </div>
+    <br />
+    <input type="submit" class="btn btn-primary" name="action" value="Search"></button>
+    <input type="submit" class="btn btn-primary" name="action" value="Edit" style="background:rgb(10, 173, 51); border-color:rgb(10, 173, 51)"></button>
+</form>
+<br />
+{% if post %}
+    <div class="list-group" id="posts">
+    <a class="list-group-item">
+        <div class="d-flex w-100 justify-content-between align-self-start">
+            <h5 class="mb-1">{{ post.title }}</h5>
+                <small>User id: {{ post.userid }}</small>
+        </div>
+        <p class="mb-1">{{ post.body }}</p><small>Post id: {{ post.id }}</small>
+        {% if edit == True %}
+        <h2 style="color:red">EDITED</h2>
+        {% endif %}
+    </a>
+</div>
+{% endif %}
+{% endblock %}

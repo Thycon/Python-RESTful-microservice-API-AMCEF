@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}
+Documentation
+{% endblock %}
+{% block content %}
+<h1>Python RESTful microservice API</h1>
+<h2>Usage</h2>
+<p>All responses will have the form</p>
+<p><code>json
+{
+    "data": "Mixed type holding the content of the response"
+    "message": "Description of the performed action"
+}</code></p>
+<h3>List all devices</h3>
+<p><strong> Definition </strong></p>
+<p><code>GET /posts</code></p>
+<p><strong> Response</strong></p>
+<ul>
+	<li><code>200 OK</code> on success</li>
+</ul>
+<p><code>json
+[
+    {
+        "userId": "1",
+        "title": "dolorem dolore est ipsam",
+    "body": "dignissimos aperiam dolorem qui eum\nfacilis quibusdam animi sint suscipit qui sint possimus cum\nquaerat magni maiores excepturi\nipsam ut commodi dolor voluptatum modi aut vitae"
+    },
+    {
+    "userId": "2",
+        "title": "voluptatem eligendi optio",
+    "body": "fuga et accusamus dolorum perferendis illo voluptas\nnon doloremque neque facere\nad qui dolorum molestiae beatae\nsed aut voluptas totam sit illum"
+    }
+]</code></p>
+<h3>Adding a new post</h3>
+<p><strong> Definition </strong></p>
+<p><code>POST /posts</code></p>
+<p><strong> Arguments </strong></p>
+<ul>
+	<li><code>"userId": integer</code> a globally unique identifier for the user/author of the post</li>
+	<li><code>"title": string</code> title of the post</li>
+	<li><code>"body": string</code> body of the post</li>
+</ul>
+<p><strong> Response </strong></p>
+<ul>
+	<li><code>201 Created</code> on success</li>
+</ul>
+<p><code>json
+    {
+        "userId": "1",
+        "title": "dolorem dolore est ipsam",
+    "body": "dignissimos aperiam dolorem qui eum\nfacilis quibusdam animi sint suscipit qui sint possimus cum\nquaerat magni maiores excepturi\nipsam ut commodi dolor voluptatum modi aut vitae"
+    }</code></p>
+<h3>Lookup a post by the id of the post</h3>
+<p><code>GET /posts/by_id/&lt;id&gt;</code></p>
+<p><strong> Response </strong></p>
+<ul>
+	<li><code>404 Not Found</code> if the post does not exist</li>
+	<li><code>200 OK</code> on success</li>
+</ul>
+<p><code>json
+    {
+        "userId": "1",
+        "title": "dolorem dolore est ipsam",
+    "body": "dignissimos aperiam dolorem qui eum\nfacilis quibusdam animi sint suscipit qui sint possimus cum\nquaerat magni maiores excepturi\nipsam ut commodi dolor voluptatum modi aut vitae"
+    }</code></p>
+<h3>Lookup a post by the id of the user</h3>
+<p><code>GET /posts/by_userId/&lt;userId&gt;</code></p>
+<p><strong> Response </strong></p>
+<ul>
+	<li><code>404 Not Found</code> if the user does not have any posts</li>
+	<li><code>200 OK</code> on success</li>
+</ul>
+<p><code>json
+    {
+        "userId": "1",
+        "title": "dolorem dolore est ipsam",
+    "body": "dignissimos aperiam dolorem qui eum\nfacilis quibusdam animi sint suscipit qui sint possimus cum\nquaerat magni maiores excepturi\nipsam ut commodi dolor voluptatum modi aut vitae"
+    },
+    {
+    "userId": "1",
+        "title": "voluptatem eligendi optio",
+    "body": "fuga et accusamus dolorum perferendis illo voluptas\nnon doloremque neque facere\nad qui dolorum molestiae beatae\nsed aut voluptas totam sit illum"
+    }</code></p>
+<h3>Delete a post</h3>
+<p><code>DELETE /posts/&lt;id&gt;</code></p>
+<p><strong> Response </strong></p>
+<ul>
+	<li><code>404 Not Found</code> if the post does not exist</li>
+	<li><code>204 No Content</code> on success</li>
+</ul>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}
+Delete post
+{% endblock %}
+{% block content %}
+<form method="POST">
+    <br />
+    <h2 align="center">Delete</h2>
+    <div class="form-group">
+        <label for="Post Id">Delete post by post Id</label>
+        <input type="id" class="form-control" id="id" name="id" placeholder="Post Id" value="{{ temp_id }}" required/>
+    </div>
+    <br />
+    <input type="submit" class="btn btn-primary" name="action" value="Search"></button>
+    <input type="submit" class="btn btn-primary" name="action" value="Delete" style="background:rgb(173, 10, 10); border-color:rgb(173, 10, 10)"></button>
+</form>
+
+{% if post %}
+    <div class="list-group" id="posts">
+    <a class="list-group-item">
+        <div class="d-flex w-100 justify-content-between align-self-start">
+            <h5 class="mb-1">{{ post.title }}</h5>
+                <small>User id: {{ post.userid }}</small>
+        </div>
+        <p class="mb-1">{{ post.body }}</p><small>Post id: {{ post.id }}</small>
+        {% if delete == True %}
+        <h2 style="color:red">DELETED</h2>
+        {% endif %}
+    </a>
+</div>
+{% endif %}
+{% endblock %}
