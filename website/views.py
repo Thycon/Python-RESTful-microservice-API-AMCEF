@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, flash
 from .models import Post
 from . import db
 import requests
+import markdown
 
 # Initialize the blueprint
 
@@ -15,7 +16,7 @@ def home():
 
 # Show the documentation
 
-@views.route('/documentation')
+@views.route('/doc', methods=['GET'])
 def documentation():
     return render_template("documentation.html")
 
@@ -47,7 +48,7 @@ def add_post():
 
         try:
             if not isinstance(int(userid), int):
-                print(userid)
+                flash('User Id must be an integer!', category='error')
         except ValueError:
             flash('User Id must be an integer!', category='error')
             return render_template("add_post.html")
@@ -67,7 +68,7 @@ def add_post():
             for item in user_list:
                 user_ids.append(item["id"])
                 
-                # Add post into the database
+            # Add post into the database
 
             if int(userid) in user_ids:
                 new_post = Post(userid=userid, title=title, body=body)
@@ -79,6 +80,8 @@ def add_post():
                 flash(str('User '+str(userid)+' is not valid.'), category='error') 
 
     return render_template("add_post.html", post=new_post)
+
+# Search for post by id
 
 @views.route('/search/id', methods=['GET', 'POST'])
 def search_by_id():
@@ -112,8 +115,10 @@ def search_by_id():
             response = requests.get(api_url)
             posts_list = response.json()
             for post in posts_list:
+
+                # If the post is found in the external API, restore it and save it to the database
+
                 if int(id) == post['id']:
-                    print('hura')
                     db.session.add(Post(id=post['id'], userid=post['userId'], title=post['title'], body=post['body']))
                     db.session.commit()
                     post = Post.query.get(id)
@@ -122,13 +127,17 @@ def search_by_id():
 
             flash('Post does not exist!', category='error')
 
+    # If the post is found, display it on the page
+
     return render_template("search_id.html", post=post)
+
+# Search for post by userId
 
 @views.route('/search/userid', methods=['GET', 'POST'])
 def search_by_userid():
     posts = []
 
-    # If searching through the front end
+    # If data entered in forms
 
     if request.method == 'POST':
         userid = request.form.get("userid")
@@ -170,13 +179,13 @@ def edit():
 
         if len(post) < 1:
             flash('Invalid post! Post id must be an integer.', category='error')
-            return render_template("edit.html", edit=False)
+            return render_template("edit.html", edit=True)
         try:
             if not isinstance(int(post), int):
                 flash('Post id must be an integer!', category='error')
         except ValueError:
             flash('Post id must be an integer!', category='error')
-            return render_template("edit.html", edit=False)
+            return render_template("edit.html", edit=True)
 
         # If data is ok, proceed with edit
 
@@ -193,20 +202,67 @@ def edit():
                 else:
                     flash(str('Post '+str(form_id)+' does not exist!'), category='error')
 
-
             # If Edit button is pressed, edit the post and save it in the database
 
             if request.form.get('action') == 'Edit':
+
+                # Get data from input forms
+
                 form_id = request.form.get("id")
+                userid = request.form.get("userid")
                 title = request.form.get("title")
                 body = request.form.get("body")
-                post = db.session.query(Post).filter_by(id=post).first()
-                if post is not None:
-                    post.update({Post.title: Stuff.foo + 1})
-                    db.session.commit()
-                    flash(str('Post '+str(post.id)+' deleted successfully.'), category='success')
+
+                post = db.session.query(Post).filter_by(id=form_id).first()
+
+                # Check if post meets required parameters
+
+                try:
+                    if not isinstance(int(form_id), int):
+                        flash('Post Id must be an integer!', category='error')
+                except ValueError:
+                    flash('Post Id must be an integer!', category='error')
+                    return render_template("edit.html", post=post, edit=False, temp_id=form_id, temp_userid=userid, temp_title=title, temp_body=body)
+                try:
+                    if not isinstance(int(form_id), int):
+                        flash('User Id must be an integer!', category='error')
+                except ValueError:
+                    flash('User Id must be an integer!', category='error')
+                    return render_template("edit.html", post=post, edit=False, temp_id=form_id, temp_userid=userid, temp_title=title, temp_body=body)
+                if (len(title) < 3) and (len(body) < 5):
+                    flash('The title of your post is too short. Make sure it contains more than 3 characters.', category='error')
+                    flash('The body of your post is too short. Make sure it contains more than 5 characters.', category='error')
+                    return render_template("edit.html", post=post, edit=False, temp_id=form_id, temp_userid=userid, temp_title=title, temp_body=body)
+                if len(title) < 3:
+                    flash('The title of your post is too short. Make sure it contains more than 3 characters.', category='error')
+                    return render_template("edit.html", post=post, edit=False, temp_id=form_id, temp_userid=userid, temp_title=title, temp_body=body)
+                if len(body) < 5:
+                    flash('The body of your post is too short. Make sure it contains more than 5 characters.', category='error')
+                    return render_template("edit.html", edit=False, temp_id=form_id, temp_userid=userid, temp_title=title, temp_body=body)
+
+                post = db.session.query(Post).filter_by(id=form_id).first()
+
+                # Check if userid is the owner of the post
+
+                if int(userid) == post.userid:
+
+                    # If the post exists and userid matches, check if the post changes, and if yes, edit and save it to database
+
+                    if post is not None:
+                        if post.title == title and post.body == body:
+                            flash('No changes to the post were made', category='error')
+                            return render_template("edit.html", post=post, edit=False, temp_id=form_id, temp_userid=userid, temp_title=title, temp_body=body)
+                        post.title = title
+                        post.body = body
+                        db.session.commit()
+                        flash('Post '+str(post.id)+' edited successfully.', category='success')
+                        return render_template("edit.html", post=post, edit=True, temp_id=form_id, temp_userid=userid, temp_title=title, temp_body=body)
+                    else:
+                        flash('Post '+str(form_id)+' does not exist!', category='error')
                 else:
-                    flash(str('Post '+str(form_id)+' does not exist!'), category='error')
+                    flash('User is not the owner of the post!', category='error')
+                    return render_template("edit.html", post=post, edit=False, temp_id=form_id, temp_userid=userid, temp_title=title, temp_body=body)
+                    
     return render_template("edit.html", edit=True)
 
 # Delete a post
@@ -231,12 +287,15 @@ def delete():
         except ValueError:
             flash('Post id must be an integer!', category='error')
             return render_template("delete.html")
+        if int(post) < 1:
+            flash('Post id must be a valid integer larger than 0!', category='error')
+            return render_template("delete.html")
 
         # If data is ok, proceed with delete
 
         else:
 
-            # If Search button is pressed
+            # If Search button is pressed, show the post and instructions on how to proceed
 
             if request.form.get('action') == 'Search':
                 form_id = request.form.get("id")
@@ -247,8 +306,7 @@ def delete():
                 else:
                     flash(str('Post '+str(form_id)+' does not exist!'), category='error')
 
-
-            # If Delete button is pressed
+            # If Delete button is pressed, display a success if post was found, or error if post does not exist
 
             if request.form.get('action') == 'Delete':
                 form_id = request.form.get("id")
@@ -260,5 +318,4 @@ def delete():
                 else:
                     flash(str('Post '+str(form_id)+' does not exist!'), category='error')
             
-
     return render_template("delete.html", post=post, delete=True)

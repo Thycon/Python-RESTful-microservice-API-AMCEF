@@ -7,21 +7,24 @@ Edit post
     <br />
     <h2 align="center">Edit a post</h2>
     <div class="form-group">
+        <label for="Post Id">Edit a post</label>
         {% if edit == True %}
-            <label for="Post Id">Edit a post</label>
             <input type="text" class="form-control" id="userid" name="id" placeholder="Post Id" required/>
         {% else %}
-            <label for="Post Id">Edit a post</label>
-            <input type="text" class="form-control" id="userid" name="id" placeholder="Post Id" value="{{ temp_id }}" required/>
+            <input type="text" class="form-control" id="id" name="id" placeholder="Post Id" value="{{ temp_id }}" />
             <br />
-            <input type="text" class="form-control" id="title" name="title" placeholder="Title" required/>
+            <input type="text" class="form-control" id="userid" name="userid" placeholder="User Id" value="{{ temp_userid }}" />
             <br />
-            <textarea type="text" class="form-control" id="body" name="body" rows="10" placeholder="Body" required></textarea>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{ temp_title }}" />
+            <br />
+            <textarea type="text" class="form-control" id="body" name="body" rows="10" placeholder="Body" >{{ temp_body }}</textarea>
         {% endif %}
     </div>
     <br />
     <input type="submit" class="btn btn-primary" name="action" value="Search"></button>
-    <input type="submit" class="btn btn-primary" name="action" value="Edit" style="background:rgb(10, 173, 51); border-color:rgb(10, 173, 51)"></button>
+    {% if edit == False %}
+        <input type="submit" class="btn btn-primary" name="action" value="Edit" style="background:rgb(10, 173, 51); border-color:rgb(10, 173, 51)"></button>
+    {% endif %}
 </form>
 <br />
 {% if post %}

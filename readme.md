@@ -1,20 +1,27 @@
-{% extends "base.html" %}
-{% block title %}
-Documentation
-{% endblock %}
-{% block content %}
 <br />
 <h1 align="center">Python RESTful microservice API</h1>
 <br />
+<h2>Installation</h2>
+<br />
+<p><strong>Dependencies</strong></p>
+<p>Python 3+, Docker Desktop</p>
+<br />
+<p><strong>How to install</strong></p>
+<p>Run these commands in cmd/powershell, in the main directory of the program:</p>
+<p><code>docker-build compose</code></p>
+<p><code>docker compose up</code></p>
+<br />
+<p>Then you can access the API through the front end by a browser on <a>http://127.0.0.1:5000</a>, or by url calls on <a>http://127.0.0.1:5000/api/</a> - read below for more details.</p>
+<br />
 <h2>Usage through the front end - html website</h2>
 <br />
-<p>Front end can be accessed on '/' and subdomains '/posts', '/posts/add', '/search/id', '/search/userid', '/posts/edit', '/posts/delete'. For documentation, the route is '/doc'.
+<p>Front end can be accessed on '/' and subdomains '/posts', '/posts/add', '/search/id', '/search/userid', '/posts/edit', '/posts/delete'. For this usage documentation, the route is '/doc'.</p>
 
     All of this is accessed easily through the navbar at the top of the webpage.
     
     GET, POST, PUT, DELETE requests are handled through input forms which are self-explanatory.
     
-    Html code was written with the help of extension Jinja2 to implement basic python expressions from the backend.</p>
+    Html code was written with the help of extension Jinja2 to implement basic python expressions from the backend.
 <br />
 <h2>Usage through URL call</h2>
 <br />
@@ -150,4 +157,3 @@ Documentation
         "message": "Post 2 deleted successfully"
     }
 </code></p>
-{% endblock %}
