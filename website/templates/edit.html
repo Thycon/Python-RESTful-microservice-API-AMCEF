@@ -7,16 +7,22 @@ Edit post
     <br />
     <h2 align="center">Edit a post</h2>
     <div class="form-group">
-        <label for="Post Id">Edit a post</label>
+        <h4>Search the post by post Id</h4>
+        <br />
         {% if edit == True %}
-            <input type="text" class="form-control" id="userid" name="id" placeholder="Post Id" required/>
+            <label for="postid">User Id</label>
+            <input type="text" class="form-control" id="postid" name="id" placeholder="Post Id" required/>
         {% else %}
+            <label for="id">Post Id</label>
             <input type="text" class="form-control" id="id" name="id" placeholder="Post Id" value="{{ temp_id }}" />
             <br />
+            <label for="userid">User Id</label>
             <input type="text" class="form-control" id="userid" name="userid" placeholder="User Id" value="{{ temp_userid }}" />
             <br />
+            <label for="postid">Title</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{ temp_title }}" />
             <br />
+            <label for="postid">Body</label>
             <textarea type="text" class="form-control" id="body" name="body" rows="10" placeholder="Body" >{{ temp_body }}</textarea>
         {% endif %}
     </div>

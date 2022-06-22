@@ -7,8 +7,7 @@
 <p>Python 3+, Docker Desktop</p>
 <br />
 <p><strong>How to install</strong></p>
-<p>Run these commands in cmd/powershell, in the main directory of the program:</p>
-<p><code>docker-build compose</code></p>
+<p>Run these commands in cmd/powershell, in the main directory of the program - "Python-RESTful-microservice-API-AMCEF":</p>
 <p><code>docker compose up</code></p>
 <br />
 <p>Then you can access the API through the frontend by a browser on <a>http://127.0.0.1:5000</a>, or by url calls on <a>http://127.0.0.1:5000/api/</a> - read below for more details.</p>
