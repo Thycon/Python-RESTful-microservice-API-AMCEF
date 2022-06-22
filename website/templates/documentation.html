@@ -21,8 +21,8 @@ Documentation
 <p>All responses will have the form</p>
 <p><code>json
 {
-    "data": "Mixed type holding the content of the response",
-    "message": "Description of the performed action"
+    "message": "Description of the performed action",
+    "data": "Mixed type holding the content of the response"
 }</code></p>
 <p>or</p>
 <p><code>json
@@ -55,7 +55,7 @@ Documentation
 }</code></p>
 <h3>Adding a new post</h3>
 <p><strong> Definition </strong></p>
-<p><code>POST /posts</code></p>
+<p><code>POST /api/posts</code></p>
 <p><strong> Arguments </strong></p>
 <ul>
 	<li><code>"userId": integer</code> a globally unique identifier for the user/author of the post, is validated through an external API</li>
@@ -128,18 +128,20 @@ Documentation
     <p><strong> Response </strong></p>
     <ul>
         <li><code>200 OK</code> on success</li>
+        <li><code>404 Not Found</code> if the post does not exist</li>
     </ul>
     <p><code>json
         {
             "message": "Post 1 successfully edited",
             "data": {
             "userId": 1,
-            "title": "asd",
-            "body": "tsdsfaadsfa"
+            "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+            "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas
+        totam\nnostrum rerum est autem sunt rem eveniet architecto"
             }
         }</code></p>
 <h3>Delete a post</h3>
-<p><code>DELETE /posts/&lt;id&gt;</code></p>
+<p><code>DELETE /api/posts/&lt;id&gt;</code></p>
 <p><strong> Response </strong></p>
 <ul>
 	<li><code>404 Not Found</code> if the post does not exist</li>

@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import event
-from json import JSONDecodeError
 import requests
 from os import path
 
@@ -16,6 +15,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = '1_R34LLY_W4NT_TH15_J08_:)'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Initialize the database, and register blueprint routes
 
